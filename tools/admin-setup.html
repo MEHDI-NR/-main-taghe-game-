@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
+<title>تنظیمات مدیر — تَقّه بزن</title>
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141a24; --panel2:#1b2230; --line:#2a3444;
+    --txt:#e8edf5; --muted:#93a0b4; --brand:#ff8a1e; --brand2:#ffd23f;
+    --ok:#3ddc84; --err:#ff4d5e; --neon:#23e5db;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 700px at 50% -10%,#1a2130,#0b0e14 60%);
+    color:var(--txt);font:15px/1.7 system-ui,'Segoe UI',Tahoma,sans-serif;
+    min-height:100vh;padding:24px 16px 64px}
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:1.6rem;margin:0 0 4px;background:linear-gradient(90deg,var(--brand),var(--brand2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);margin:0 0 22px;font-size:.92rem}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin-bottom:16px}
+  .card h2{font-size:1.05rem;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+  .card p{color:var(--muted);font-size:.88rem;margin:0 0 14px}
+  label{display:block;font-size:.85rem;color:var(--muted);margin:12px 0 5px}
+  input[type=text],input[type=password]{width:100%;padding:11px 13px;border-radius:10px;
+    border:1px solid var(--line);background:var(--panel2);color:var(--txt);
+    font:inherit;font-size:.95rem}
+  input:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:transparent}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  button{padding:11px 18px;border-radius:10px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--txt);font:inherit;font-weight:600;
+    cursor:pointer;transition:.15s;min-height:44px}
+  button:hover{border-color:var(--brand);transform:translateY(-1px)}
+  .primary{background:linear-gradient(180deg,var(--brand),#e6720d);border-color:transparent;color:#1a1206}
+  .danger{border-color:#5c2530;color:#ffb3bb}
+  .danger:hover{border-color:var(--err)}
+  .ghost{background:transparent}
+  .status{margin-top:14px;padding:11px 14px;border-radius:10px;font-size:.9rem;display:none}
+  .status.on{display:block}
+  .status.ok{background:rgba(61,220,132,.12);border:1px solid rgba(61,220,132,.35);color:#a9f0c9}
+  .status.err{background:rgba(255,77,94,.12);border:1px solid rgba(255,77,94,.35);color:#ffb3bb}
+  .badge{font-size:.75rem;padding:3px 10px;border-radius:99px;font-weight:700}
+  .badge.set{background:rgba(61,220,132,.15);color:var(--ok);border:1px solid rgba(61,220,132,.4)}
+  .badge.unset{background:rgba(147,160,180,.14);color:var(--muted);border:1px solid var(--line)}
+  .note{background:rgba(255,138,30,.07);border:1px solid rgba(255,138,30,.28);
+    border-radius:12px;padding:14px 16px;font-size:.86rem;color:#f5d4ae;margin-bottom:16px}
+  .note b{color:var(--brand2)}
+  code{background:#0a0d13;border:1px solid var(--line);padding:2px 7px;border-radius:6px;
+    font-size:.85em;color:var(--neon);direction:ltr;display:inline-block}
+  pre{background:#0a0d13;border:1px solid var(--line);border-radius:10px;padding:13px;
+    overflow-x:auto;direction:ltr;text-align:left;font-size:.82rem;color:#cfe3ff}
+  ol{padding-inline-start:20px;color:var(--muted);font-size:.88rem}
+  ol li{margin-bottom:7px}
+  a{color:var(--brand)}
+  .gen{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.5px}
+  .back{display:inline-block;margin-bottom:18px;color:var(--muted);text-decoration:none;font-size:.88rem}
+  .back:hover{color:var(--brand)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">‹ بازگشت به بازی</a>
+  <h1>تنظیمات حساب مدیر</h1>
+  <p class="sub">نام کاربری و رمز مدیر را اینجا تعیین کن، یا همه‌چیز را به حالت پیش‌فرض برگردان.</p>
+
+  <div class="note">
+    <b>رمز شما ذخیره نمی‌شود.</b> فقط هَش برگشت‌ناپذیر آن
+    (PBKDF2-SHA256 با ۲۱۰٬۰۰۰ دور و Salt تصادفی) نگهداری می‌شود — همان روشی که
+    سرورهای واقعی به‌کار می‌برند. حتی با باز کردن حافظه‌ی مرورگر هم رمز قابل خواندن نیست.
+  </div>
+
+  <!-- ============ حساب محلی ============ -->
+  <div class="card">
+    <h2>حساب مدیر محلی <span id="badge" class="badge unset">تنظیم نشده</span></h2>
+    <p>برای وقتی که بازی بدون Supabase و به‌صورت آفلاین اجرا می‌شود.</p>
+
+    <label for="u">نام کاربری</label>
+    <input id="u" type="text" autocomplete="off" spellcheck="false" placeholder="مثلاً: mehdi" />
+
+    <label for="p">رمز عبور (حداقل ۸ کاراکتر)</label>
+    <input id="p" type="password" autocomplete="new-password" class="gen" placeholder="••••••••" />
+
+    <label for="p2">تکرار رمز عبور</label>
+    <input id="p2" type="password" autocomplete="new-password" class="gen" placeholder="••••••••" />
+
+    <div class="row">
+      <button class="primary" id="save">ذخیره و اعمال</button>
+      <button class="ghost" id="gen">ساخت رمز قوی</button>
+      <button class="ghost" id="show">نمایش رمز</button>
+      <button class="danger" id="reset">بازگشت به پیش‌فرض</button>
+    </div>
+    <div id="st" class="status"></div>
+  </div>
+
+  <!-- ============ تست ورود ============ -->
+  <div class="card">
+    <h2>آزمایش ورود</h2>
+    <p>بررسی کن که نام کاربری و رمز واقعاً کار می‌کنند.</p>
+    <label for="tu">نام کاربری</label>
+    <input id="tu" type="text" autocomplete="off" />
+    <label for="tp">رمز عبور</label>
+    <input id="tp" type="password" autocomplete="off" />
+    <div class="row"><button id="test">آزمایش کن</button></div>
+    <div id="tst" class="status"></div>
+  </div>
+
+  <!-- ============ Supabase ============ -->
+  <div class="card">
+    <h2>مدیر واقعی روی اینترنت (Supabase)</h2>
+    <p>
+      برای انتشار عمومی روی GitHub Pages، حساب محلی کافی نیست — چون بازی سمت کاربر
+      اجرا می‌شود. مدیر واقعی باید از دیتابیس بیاید.
+    </p>
+    <ol>
+      <li>در بازی ثبت‌نام کن تا حسابت ساخته شود.</li>
+      <li>در Supabase به <b>SQL Editor</b> برو و این را اجرا کن (ایمیل خودت را بگذار):</li>
+    </ol>
+<pre>update public.profiles set is_admin = true
+where id = (select id from auth.users where email = 'you@example.com');</pre>
+    <ol start="3">
+      <li>در بازی یک بار خارج و دوباره وارد شو — دکمه‌ی «مدیریت» ظاهر می‌شود.</li>
+    </ol>
+    <p style="margin-top:12px">
+      هیچ‌وقت کلید <code>service_role</code> را در فایل‌های بازی نگذار.
+      فقط <code>anonKey</code> مجاز است. جزئیات در <a href="../docs/SECURITY.md">docs/SECURITY.md</a>.
+    </p>
+  </div>
+</div>
+
+<script type="module">
+import { save, verify, reset, read, isConfigured, generatePassword, cryptoAvailable }
+  from '../src/core/AdminCreds.js';
+import { config } from '../src/config/config.js';
+
+// در حالت انتشار عمومی این ابزار باید کاملاً غیرفعال باشد.
+// نقش مدیر در آن حالت فقط از Supabase (is_admin + RLS) می‌آید.
+if (config.publicRelease) {
+  document.querySelector('.wrap').innerHTML =
+    '<a class="back" href="../index.html">‹ بازگشت به بازی</a>'
+    + '<h1>این ابزار غیرفعال است</h1>'
+    + '<div class="card"><p style="font-size:.95rem;color:#e8edf5;margin:0 0 10px">'
+    + 'بازی روی <b>حالت انتشار عمومی</b> تنظیم شده است. برای امنیت، مدیریت محلی خاموش است '
+    + 'و نقش مدیر فقط از پایگاه‌داده (Supabase) خوانده می‌شود.</p>'
+    + '<p style="font-size:.88rem">برای مدیر کردن یک حساب، در SQL Editor اجرا کن:</p>'
+    + '<pre>update public.profiles set is_admin = true\nwhere id = (select id from auth.users where email = \'you@example.com\');</pre>'
+    + '<p style="font-size:.85rem;color:#93a0b4">توسعه‌دهنده: برای کار محلی، در '
+    + '<code>src/config/config.js</code> مقدار <code>publicRelease</code> را false کن.</p></div>';
+  throw new Error('admin tool disabled in public release');
+}
+
+const $ = (id) => document.getElementById(id);
+const show = (node, msg, ok) => {
+  node.textContent = msg;
+  node.className = 'status on ' + (ok ? 'ok' : 'err');
+};
+
+function refresh() {
+  const rec = read();
+  const b = $('badge');
+  if (rec) {
+    b.className = 'badge set';
+    b.textContent = 'فعال — ' + rec.username;
+    $('u').value = rec.username;
+    $('tu').value = rec.username;
+  } else {
+    b.className = 'badge unset';
+    b.textContent = 'تنظیم نشده (پیش‌فرض)';
+  }
+}
+
+if (!cryptoAvailable()) {
+  show($('st'), 'رمزنگاری مرورگر در دسترس نیست. صفحه را از طریق http://localhost یا https باز کن — نه با دابل‌کلیک روی فایل.', false);
+  ['save','gen','test','show'].forEach(i => $(i).disabled = true);
+}
+
+$('gen').onclick = () => {
+  const pw = generatePassword(16);
+  $('p').value = pw; $('p2').value = pw;
+  $('p').type = $('p2').type = 'text';
+  $('show').textContent = 'مخفی کردن';
+  show($('st'), 'رمز ساخته شد — همین حالا جایی امن یادداشتش کن. بعداً قابل بازیابی نیست.', true);
+};
+
+$('show').onclick = () => {
+  const t = $('p').type === 'password' ? 'text' : 'password';
+  $('p').type = $('p2').type = t;
+  $('show').textContent = t === 'text' ? 'مخفی کردن' : 'نمایش رمز';
+};
+
+$('save').onclick = async () => {
+  const u = $('u').value.trim(), p = $('p').value, p2 = $('p2').value;
+  if (p !== p2) return show($('st'), 'دو رمز یکسان نیستند.', false);
+  const r = await save(u, p);
+  if (!r.ok) {
+    const msg = {
+      'adm.badUsername': 'نام کاربری باید بین ۳ تا ۲۴ کاراکتر باشد.',
+      'adm.badPassword': 'رمز باید حداقل ۸ کاراکتر باشد.',
+      'adm.needSecureContext': 'رمزنگاری در دسترس نیست (از localhost یا https باز کن).',
+    }[r.errorKey] ?? 'ذخیره نشد.';
+    return show($('st'), msg, false);
+  }
+  $('p').value = $('p2').value = '';
+  $('p').type = $('p2').type = 'password';
+  $('show').textContent = 'نمایش رمز';
+  refresh();
+  show($('st'), '✅ ذخیره و اعمال شد. از این پس همین نام کاربری و رمز معتبر است.', true);
+};
+
+$('reset').onclick = () => {
+  if (!isConfigured()) return show($('st'), 'همین حالا هم روی حالت پیش‌فرض است.', true);
+  if (!confirm('حساب مدیر محلی حذف شود و به حالت پیش‌فرض برگردد؟')) return;
+  reset();
+  $('u').value = $('p').value = $('p2').value = '';
+  refresh();
+  show($('st'), '↩️ به حالت پیش‌فرض برگشت. حساب مدیر محلی غیرفعال شد.', true);
+};
+
+$('test').onclick = async () => {
+  if (!isConfigured()) return show($('tst'), 'هنوز حساب مدیری تنظیم نشده.', false);
+  const ok = await verify($('tu').value, $('tp').value);
+  show($('tst'), ok ? '✅ درست است — ورود موفق.' : '❌ نام کاربری یا رمز اشتباه است.', ok);
+  $('tp').value = '';
+};
+
+refresh();
+</script>
+</body>
+</html>
